@@ -1,0 +1,48 @@
+
+<?php
+
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\CashBookController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExpenseTransactionController;
+use App\Http\Controllers\IncomeTransactionController;
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\MealScheduleController;
+use App\Http\Controllers\PersonController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SettingController;
+use Illuminate\Support\Facades\Route;
+
+Route::redirect('/', '/dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
+    // 2. Ditambahkan (Route Profile)
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::resource('people', PersonController::class);
+    Route::resource('income', IncomeTransactionController::class)->parameters(['income' => 'income']);
+    Route::resource('invoices', InvoiceController::class)->except(['edit', 'update']);
+    Route::get('income/{income}/download', [IncomeTransactionController::class, 'download'])->name('income.download');
+    Route::resource('expense', ExpenseTransactionController::class)->parameters(['expense' => 'expense']);
+    Route::get('expense/{expense}/download', [ExpenseTransactionController::class, 'download'])->name('expense.download');
+    Route::get('receipts', [ReceiptController::class, 'index'])->name('receipts.index');
+    Route::resource('inventories', InventoryController::class);
+    Route::resource('attendances', AttendanceController::class);
+    Route::resource('meal-schedules', MealScheduleController::class);
+    Route::get('cash', CashBookController::class)->name('cash.index');
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('reports/pdf', [ReportController::class, 'pdf'])->name('reports.pdf');
+    Route::get('reports/excel', [ReportController::class, 'excel'])->name('reports.excel');
+    Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
+    Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
+
+});
+
+require __DIR__.'/auth.php';
