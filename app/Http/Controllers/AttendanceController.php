@@ -32,7 +32,7 @@ class AttendanceController extends Controller
     public function store(AttendanceRequest $request)
     {
         $data = $request->validated();
-        $data['created_by'] = Auth::id(); // Diubah ke Auth::id()
+        $data['created_by'] = Auth::id();
 
         Attendance::create($data);
 

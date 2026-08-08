@@ -13,6 +13,7 @@ use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,10 @@ Route::middleware('auth')->group(function () {
     Route::get('receipts', [ReceiptController::class, 'index'])->name('receipts.index');
     Route::resource('inventories', InventoryController::class);
     Route::resource('attendances', AttendanceController::class);
+    Route::get('/salaries', [SalaryController::class, 'index'])->name('salaries.index');
+    Route::get('/salaries/create', [SalaryController::class, 'create'])->name('salaries.create');
+    Route::post('/salaries', [SalaryController::class, 'store'])->name('salaries.store');
+    Route::delete('/salaries/{salary}', [SalaryController::class, 'destroy'])->name('salaries.destroy');
     Route::resource('meal-schedules', MealScheduleController::class);
     Route::get('cash', CashBookController::class)->name('cash.index');
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');

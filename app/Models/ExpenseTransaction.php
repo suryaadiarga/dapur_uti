@@ -24,7 +24,12 @@ class ExpenseTransaction extends Model
         'lain_lain' => 'Lain-lain',
     ];
 
-    public const PAYMENT_METHODS = IncomeTransaction::PAYMENT_METHODS;
+    // Didefinisikan secara langsung agar tidak error jika IncomeTransaction bermasalah
+    public const PAYMENT_METHODS = [
+        'transfer' => 'Transfer',
+        'qris' => 'QRIS',
+        'tunai' => 'Tunai'
+    ];
 
     protected $fillable = [
         'transaction_date', 'people_id', 'category', 'amount', 'payment_method',

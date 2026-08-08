@@ -76,6 +76,8 @@ class ExpenseTransactionController extends Controller
     {
         abort_unless($expense->receipt_path && Storage::disk('public')->exists($expense->receipt_path), 404);
 
-        return Storage::disk('public')->download($expense->receipt_path);
+        $filePath = Storage::disk('public')->path($expense->receipt_path);
+
+        return response()->download($filePath);
     }
 }

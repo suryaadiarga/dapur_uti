@@ -89,7 +89,7 @@
                             <span class="text-xs font-bold text-rose-400 truncate">
                                 Rp {{ number_format($receipt->amount, 0, ',', '.') }}
                             </span>
-                            <a href="{{ route('expenses.show', $receipt) }}" class="text-[10px] font-medium text-slate-400 hover:text-white transition bg-slate-800 px-2 py-1 rounded border border-slate-700">
+                            <a href="{{ route('expense.show', $receipt) }}" class="text-[10px] font-medium text-slate-400 hover:text-white transition bg-slate-800 px-2 py-1 rounded border border-slate-700">
                                 Transaksi
                             </a>
                         </div>

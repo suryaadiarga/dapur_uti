@@ -11,6 +11,7 @@ class Person extends Model
     use HasFactory;
 
     public const ROLES = [
+        'admin' => 'Administrator',
         'pemilik' => 'Pemilik',
         'staff' => 'Staff',
         'keluarga' => 'Keluarga',
