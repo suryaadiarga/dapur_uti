@@ -14,6 +14,13 @@
             </a>
         </div>
 
+        <!-- Alert Sukses -->
+        @if (session('success'))
+            <div class="rounded-2xl p-4 border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 text-sm font-medium flex items-center justify-between">
+                <span>{{ session('success') }}</span>
+            </div>
+        @endif
+
         <!-- Total Valuasi Aset -->
         <div class="glass-card rounded-2xl p-6 border border-amber-500/20 bg-amber-500/5 flex items-center justify-between">
             <div>
@@ -108,11 +115,10 @@
                                 </td>
                                 <td class="px-5 py-4 whitespace-nowrap">
                                     @php
-                                        // Contoh Pewarnaan Kondisi
                                         $conditionColor = match(strtolower($item->condition)) {
                                             'baik' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-                                            'rusak' => 'bg-rose-500/10 text-rose-400 border-rose-500/20',
-                                            'perbaikan' => 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+                                            'rusak_ringan' => 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+                                            'rusak_berat', 'hilang' => 'bg-rose-500/10 text-rose-400 border-rose-500/20',
                                             default => 'bg-slate-800 text-slate-300 border-slate-700'
                                         };
                                     @endphp

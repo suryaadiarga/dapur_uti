@@ -43,8 +43,9 @@
                                     </span>
                                 </td>
                                 <td class="px-4 py-3 text-right">
-                                    <a href="{{ route('salaries.create', ['attendance_id' => $att->id]) }}" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs shadow-md shadow-indigo-600/30 transition">
-                                        Bayar Gaji ➔
+                                    <a href="{{ route('salaries.create', ['attendance_id' => $att->id]) }}" class="inline-flex flex-col sm:flex-row items-center justify-center gap-1 px-3 py-2 sm:py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs shadow-md shadow-indigo-600/30 transition text-center">
+                                        <span>Bayar Gaji</span>
+                                        <span class="text-sm sm:text-xs">➔</span>
                                     </a>
                                 </td>
                             </tr>

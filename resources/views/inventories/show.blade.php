@@ -17,6 +17,13 @@
             </a>
         </div>
 
+        <!-- Alert Sukses -->
+        @if (session('success'))
+            <div class="rounded-2xl p-4 border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 text-sm font-medium flex items-center justify-between">
+                <span>{{ session('success') }}</span>
+            </div>
+        @endif
+
         <div class="grid gap-6 lg:grid-cols-3">
             <!-- Details Panel -->
             <div class="glass-card rounded-2xl p-6 border border-slate-800 bg-slate-900/60 lg:col-span-2 space-y-6">
@@ -48,7 +55,19 @@
 
                     <div>
                         <dt class="text-xs font-semibold uppercase tracking-wider text-slate-400">Kondisi</dt>
-                        <dd class="mt-1 text-sm font-medium text-slate-200">{{ \App\Models\Inventory::CONDITIONS[$inventory->condition] ?? $inventory->condition }}</dd>
+                        <dd class="mt-1 text-sm font-medium text-slate-200">
+                            @php
+                                $conditionColor = match(strtolower($inventory->condition)) {
+                                    'baik' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+                                    'rusak_ringan' => 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+                                    'rusak_berat', 'hilang' => 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+                                    default => 'bg-slate-800 text-slate-300 border-slate-700'
+                                };
+                            @endphp
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium border {{ $conditionColor }}">
+                                {{ \App\Models\Inventory::CONDITIONS[$inventory->condition] ?? $inventory->condition }}
+                            </span>
+                        </dd>
                     </div>
 
                     <div>

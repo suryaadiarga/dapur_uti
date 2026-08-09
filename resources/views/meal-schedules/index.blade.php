@@ -5,7 +5,7 @@
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
                 <h1 class="text-2xl font-extrabold text-white tracking-tight">Jadwal Makanan & Order</h1>
-                <p class="mt-1 text-slate-400 text-sm">Perencanaan menu, shift, dan jumlah porsi (1 - 500+ porsi).</p>
+                <p class="mt-1 text-slate-400 text-sm">Perencanaan menu, shift, dan jumlah porsi.</p>
             </div>
             <a href="{{ route('meal-schedules.create') }}" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/35 transition">
                 + Tambah Jadwal Makanan
@@ -54,28 +54,28 @@
                             <th class="px-5 py-3.5">Shift</th>
                             <th class="px-5 py-3.5">Daftar Menu</th>
                             <th class="px-5 py-3.5">Jml Porsi</th>
-                            <th class="px-5 py-3.5">Est. Biaya (Ops)</th>
+                            <th class="px-5 py-3.5 text-right">Est. Biaya (Ops)</th>
                             <th class="px-5 py-3.5 text-right">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-800/60">
                         @forelse($schedules as $sched)
                             <tr class="hover:bg-slate-800/40 transition">
-                                <td class="px-5 py-4 font-mono text-xs text-white">{{ $sched->schedule_date->format('d/m/Y') }}</td>
+                                <td class="px-5 py-4 font-mono text-xs text-white whitespace-nowrap">{{ $sched->schedule_date->format('d/m/Y') }}</td>
                                 <td class="px-5 py-4">
-                                    <span class="px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 text-xs font-medium border border-indigo-500/20">
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 text-xs font-medium border border-indigo-500/20 whitespace-nowrap">
                                         Shift {{ $sched->shift }}
                                     </span>
                                 </td>
-                                <td class="px-5 py-4 text-white font-medium">{{ $sched->menu_items }}</td>
-                                <td class="px-5 py-4 font-bold text-emerald-400">{{ number_format($sched->portion_count) }} Porsi</td>
-                                <td class="px-5 py-4 font-mono text-xs text-slate-300">Rp {{ number_format($sched->estimated_cost ?? 0, 0, ',', '.') }}</td>
-                                <td class="px-5 py-4 text-right">
+                                <td class="px-5 py-4 text-white font-medium">{{ ucwords($sched->menu_items) }}</td>
+                                <td class="px-5 py-4 font-bold text-emerald-400 whitespace-nowrap">{{ number_format($sched->portion_count) }} Porsi</td>
+                                <td class="px-5 py-4 font-mono text-xs text-slate-300 text-right whitespace-nowrap">Rp {{ number_format($sched->estimated_cost ?? 0, 0, ',', '.') }}</td>
+                                <td class="px-5 py-4 text-right whitespace-nowrap">
                                     <div class="flex items-center justify-end gap-1.5">
-                                        <a href="{{ route('meal-schedules.edit', $sched) }}" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700">Edit</a>
-                                        <form method="POST" action="{{ route('meal-schedules.destroy', $sched) }}" onsubmit="return confirm('Hapus jadwal ini?')">
+                                        <a href="{{ route('meal-schedules.edit', $sched) }}" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition border border-slate-700">Edit</a>
+                                        <form method="POST" action="{{ route('meal-schedules.destroy', $sched) }}" class="inline" onsubmit="return confirm('Hapus jadwal ini?')">
                                             @csrf @method('DELETE')
-                                            <button type="submit" class="p-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition border border-rose-500/20 text-xs font-semibold px-2">Hapus</button>
+                                            <button type="submit" class="px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition border border-rose-500/20 text-xs font-medium">Hapus</button>
                                         </form>
                                     </div>
                                 </td>

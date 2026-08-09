@@ -26,13 +26,53 @@ class InventoryController extends Controller
 
     public function store(InventoryRequest $request)
     {
-        $data = $request->safe()->except('photo');
-        if ($request->hasFile('photo')) {
-            $data['photo_path'] = $request->file('photo')->store('inventory-photos', 'public');
+        $data = $request->validated();
+        unset($data['photo']);
+
+        if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
+            $file = $request->file('photo');
+            $filename = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            
+            $destinationPath = storage_path('app/public/inventory-photos');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $file->move($destinationPath, $filename);
+            $data['photo_path'] = 'inventory-photos/' . $filename;
         }
+
         Inventory::create($data);
 
         return redirect()->route('inventories.index')->with('success', 'Inventaris berhasil ditambahkan.');
+    }
+
+    public function update(InventoryRequest $request, Inventory $inventory)
+    {
+        $data = $request->validated();
+        unset($data['photo']);
+
+        if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
+            $file = $request->file('photo');
+            
+            // Hapus foto lama jika ada
+            if ($inventory->photo_path && file_exists(storage_path('app/public/' . $inventory->photo_path))) {
+                @unlink(storage_path('app/public/' . $inventory->photo_path));
+            }
+
+            $filename = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            $destinationPath = storage_path('app/public/inventory-photos');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $file->move($destinationPath, $filename);
+            $data['photo_path'] = 'inventory-photos/' . $filename;
+        }
+
+        $inventory->update($data);
+
+        return redirect()->route('inventories.index')->with('success', 'Inventaris berhasil diperbarui.');
     }
 
     public function show(Inventory $inventory)
@@ -47,19 +87,6 @@ class InventoryController extends Controller
         return view('inventories.form', compact('inventory') + ['people' => Person::orderBy('name')->get()]);
     }
 
-    public function update(InventoryRequest $request, Inventory $inventory)
-    {
-        $data = $request->safe()->except('photo');
-        if ($request->hasFile('photo')) {
-            if ($inventory->photo_path) {
-                Storage::disk('public')->delete($inventory->photo_path);
-            }
-            $data['photo_path'] = $request->file('photo')->store('inventory-photos', 'public');
-        }
-        $inventory->update($data);
-
-        return redirect()->route('inventories.index')->with('success', 'Inventaris berhasil diperbarui.');
-    }
 
     public function destroy(Inventory $inventory)
     {

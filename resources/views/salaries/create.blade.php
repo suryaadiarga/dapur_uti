@@ -32,7 +32,27 @@
                 <!-- Upload Foto Bukti -->
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Foto Bukti Penyerahan (Opsional)</label>
-                    <input type="file" name="proof_photo" accept="image/*" class="w-full rounded-xl bg-slate-950/80 border border-slate-700/60 px-4 py-2 text-sm text-slate-300 file:mr-4 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 transition">
+                    
+                    <div class="space-y-3">
+                        <!-- Input Utama dengan Tombol Kamera Langsung -->
+                        <div class="flex items-center gap-3">
+                            <label class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 hover:bg-indigo-600/30 cursor-pointer text-sm font-medium transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                <span>Buka Kamera Langsung</span>
+                                <!-- Atribut capture="environment" memaksa membuka kamera belakang HP -->
+                                <input type="file" name="proof_photo" accept="image/*" capture="environment" class="hidden" id="cameraInput">
+                            </label>
+                        </div>
+
+                        <!-- Atau Pilih dari Galeri/File -->
+                        <div class="flex items-center justify-between text-xs text-slate-400 px-1">
+                            <span>Atau unggah file dari galeri/perangkat:</span>
+                            <input type="file" name="proof_photo_alt" accept="image/*" class="text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-slate-300 hover:file:bg-slate-700 transition">
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Tanda Tangan Digital -->

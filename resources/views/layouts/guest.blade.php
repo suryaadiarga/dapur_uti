@@ -14,10 +14,10 @@
             <div class="text-lg font-bold tracking-tight">Dapur Uti Finance</div>
             <div>
                 <div class="max-w-lg text-4xl font-extrabold leading-tight tracking-tight">
-                    Pencatatan keuangan katering yang ringkas dan mudah dipantau.
+                    Aplikasi ini dikhususkan untuk admin dan staff DAPUR UTI
                 </div>
                 <p class="mt-5 max-w-md text-slate-400">
-                    Kelola uang masuk, uang keluar, nota belanja, inventaris, kas, dan laporan dalam satu tempat.
+                    aplikasi production dalam tahap pengawasan dan pengembangan developer "Ncuy"
                 </p>
             </div>
             <div class="text-sm text-slate-500 font-medium">Dapur Uti</div>
