@@ -7,11 +7,11 @@
         <!-- Banner / Header Ringkasan -->
         <div class="glass-card rounded-2xl p-6 lg:p-8 relative overflow-hidden bg-gradient-to-r from-slate-900 via-slate-800/90 to-blue-950 border border-slate-700/50">
             <div class="relative z-10 max-w-2xl">
-                <h1 class="text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
-                    Ringkasan Keuangan & Stok 📊
+                <h1 class="text-2xl lg:text-3xl font-bold text-white tracking-tight">
+                    Ringkasan Keuangan & Stok
                 </h1>
                 <p class="mt-2 text-slate-400 text-sm lg:text-base leading-relaxed">
-                    Performa transaksi bulan ini, saldo kas, serta estimasi nilai total inventaris Anda secara real-time.
+                    Monitor performa transaksi bulanan, posisi saldo kas, dan total nilai inventaris secara langsung.
                 </p>
                 <div class="mt-6 flex flex-wrap gap-3">
                     <a href="{{ route('income.create') }}" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm shadow-lg shadow-emerald-600/30 transition flex items-center gap-2">
@@ -41,7 +41,7 @@
                         Rp {{ number_format($incomeThisMonth, 0, ',', '.') }}
                     </div>
                     <p class="text-xs text-slate-400 mt-1">
-                        Total {{ $incomeCount }} transaksi bulan ini
+                        {{ $incomeCount }} transaksi tercatat
                     </p>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                         Rp {{ number_format($expenseThisMonth, 0, ',', '.') }}
                     </div>
                     <p class="text-xs text-slate-400 mt-1">
-                        Total {{ $expenseCount }} transaksi bulan ini
+                        {{ $expenseCount }} transaksi tercatat
                     </p>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                         Rp {{ number_format($cashBalance, 0, ',', '.') }}
                     </div>
                     <p class="text-xs text-slate-400 mt-1">
-                        Akumulasi total kas saat ini
+                        Total akumulasi kas aktif
                     </p>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                         Rp {{ number_format($inventoryValue, 0, ',', '.') }}
                     </div>
                     <p class="text-xs text-slate-400 mt-1">
-                        Estimasi nilai total aset barang
+                        Valuasi total aset barang
                     </p>
                 </div>
             </div>
@@ -105,8 +105,8 @@
         <div class="glass-card rounded-2xl p-6 border border-slate-800 bg-slate-900/60">
             <div class="flex items-center justify-between mb-6">
                 <div>
-                    <h3 class="text-lg font-bold text-white">Tren Keuangan (7 Bulan Terakhir)</h3>
-                    <p class="text-xs text-slate-400">Perbandingan total pemasukan dan pengeluaran per bulan</p>
+                    <h3 class="text-lg font-bold text-white">Tren Keuangan</h3>
+                    <p class="text-xs text-slate-400">Perbandingan pemasukan dan pengeluaran selama 7 bulan terakhir</p>
                 </div>
                 <div class="flex items-center gap-4 text-xs font-medium">
                     <div class="flex items-center gap-1.5">
@@ -158,7 +158,7 @@
             <div class="flex items-center justify-between mb-4">
                 <div>
                     <h3 class="text-lg font-bold text-white">Transaksi Terakhir</h3>
-                    <p class="text-xs text-slate-400">Aktivitas keuangan dan mutasi kas terbaru</p>
+                    <p class="text-xs text-slate-400">Daftar aktivitas keuangan terbaru</p>
                 </div>
                 <div class="flex gap-2">
                     <a href="{{ route('income.index') }}" class="text-xs font-medium text-emerald-400 hover:underline">Pemasukan &rarr;</a>
@@ -174,7 +174,7 @@
                             <th class="px-5 py-3.5">Tanggal</th>
                             <th class="px-5 py-3.5">Tipe</th>
                             <th class="px-5 py-3.5">Kategori</th>
-                            <th class="px-5 py-3.5">Orang / Kontak</th>
+                            <th class="px-5 py-3.5">Kontak</th>
                             <th class="px-5 py-3.5 text-right">Jumlah</th>
                         </tr>
                     </thead>
