@@ -1,10 +1,10 @@
 <!-- Responsive Sidebar Navigation (Mobile & Desktop) -->
 <aside class="fixed inset-y-0 left-0 z-50 flex flex-col bg-slate-900/95 border-r border-slate-800/80 transition-all duration-300 lg:static lg:z-30"
        :class="{
-           '-translate-x-full lg:translate-x-0': !mobileOpen,
-           'translate-x-0': mobileOpen,
-           'w-64': sidebarOpen,
-           'w-20': !sidebarOpen
+            '-translate-x-full lg:translate-x-0': !mobileOpen,
+            'translate-x-0': mobileOpen,
+            'w-64': sidebarOpen,
+            'w-20': !sidebarOpen
        }">
 
     <!-- Mobile Backdrop Overlay -->
@@ -23,15 +23,29 @@
     <!-- Logo & Brand Header -->
     <div class="h-16 flex items-center px-5 border-b border-slate-800/80 justify-between shrink-0">
         <a href="{{ route('dashboard') }}" class="flex items-center gap-3 overflow-hidden">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
-            </div>
+            @php
+                $sidebarSetting = \App\Models\Setting::first();
+            @endphp
+
+            @if($sidebarSetting && $sidebarSetting->logo_path)
+                <!-- Logo dari Database -->
+                <div class="w-10 h-10 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center justify-center shrink-0 overflow-hidden shadow-md">
+                    <img src="{{ Storage::url($sidebarSetting->logo_path) }}" class="w-full h-full object-cover" alt="Logo Usaha">
+                </div>
+            @else
+                <!-- Logo Fallback / Bawaan -->
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+            @endif
+
             <span x-show="sidebarOpen" class="font-extrabold text-lg tracking-wide bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent whitespace-nowrap">
-                DAPUR UTI<span class="text-blue-500">APP</span>
+                {{ $sidebarSetting->app_name ?? 'DAPUR UTI' }}<span class="text-blue-500">{{ isset($sidebarSetting->app_name) ? '' : 'APP' }}</span>
             </span>
         </a>
+
         <!-- Tombol Close khusus Mobile -->
         <button @click="mobileOpen = false" class="lg:hidden text-slate-400 hover:text-white p-1.5 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
