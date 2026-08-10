@@ -43,9 +43,23 @@
                                 <td class="px-5 py-4 text-slate-400">{{ $inv->creator->name ?? 'System' }}</td>
                                 <td class="px-5 py-4 text-center">
                                     <div class="flex items-center justify-center gap-2">
+                                        <!-- Tombol Lihat Detail -->
                                         <a href="{{ route('invoices.show', $inv->id) }}" class="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 transition" title="Lihat / Cetak">
                                             👁️
                                         </a>
+
+                                        <!-- Tombol Ubah ke Paid (Hanya muncul jika status unpaid) -->
+                                        @if($inv->status == 'unpaid')
+                                            <form action="{{ route('invoices.pay', $inv->id) }}" method="POST" onsubmit="return confirm('Ubah status invoice ini menjadi Paid?')">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition" title="Tandai Paid">
+                                                    ✅
+                                                </button>
+                                            </form>
+                                        @endif
+
+                                        <!-- Tombol Hapus -->
                                         <form action="{{ route('invoices.destroy', $inv->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus invoice ini?')">
                                             @csrf
                                             @method('DELETE')

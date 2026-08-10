@@ -56,6 +56,15 @@ class InvoiceController extends Controller
         return redirect()->route('invoices.index')->with('success', 'Invoice otomatis berhasil digenerate.');
     }
 
+    public function markAsPaid(Invoice $invoice)
+    {
+        $invoice->update([
+            'status' => 'paid',
+        ]);
+
+        return back()->with('success', 'Status invoice berhasil diubah menjadi Paid.');
+    }
+
     public function show(Invoice $invoice)
     {
         // Ambil rincian jadwal yang masuk ke dalam rentang invoice ini
@@ -65,15 +74,6 @@ class InvoiceController extends Controller
             ->get();
 
         return view('invoices.show', compact('invoice', 'schedules'));
-    }
-
-    public function markAsPaid(Invoice $invoice)
-    {
-        $invoice->update([
-            'status' => 'paid',
-        ]);
-
-        return back()->with('success', 'Status invoice berhasil diubah menjadi Paid.');
     }
 
     public function destroy(Invoice $invoice)
