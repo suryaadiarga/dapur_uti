@@ -72,10 +72,14 @@
                                 <td class="px-5 py-4 font-mono text-xs text-slate-300 text-right whitespace-nowrap">Rp {{ number_format($sched->estimated_cost ?? 0, 0, ',', '.') }}</td>
                                 <td class="px-5 py-4 text-right whitespace-nowrap">
                                     <div class="flex items-center justify-end gap-1.5">
-                                        <a href="{{ route('meal-schedules.edit', $sched) }}" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition border border-slate-700">Edit</a>
+                                        <a href="{{ route('meal-schedules.edit', $sched) }}" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700 shrink-0">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                        </a>
                                         <form method="POST" action="{{ route('meal-schedules.destroy', $sched) }}" class="inline" onsubmit="return confirm('Hapus jadwal ini?')">
                                             @csrf @method('DELETE')
-                                            <button type="submit" class="px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition border border-rose-500/20 text-xs font-medium">Hapus</button>
+                                            <button type="submit" class="p-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition border border-rose-500/20" title="Hapus">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                            </button>
                                         </form>
                                     </div>
                                 </td>

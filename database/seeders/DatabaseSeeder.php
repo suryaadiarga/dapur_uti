@@ -27,6 +27,9 @@ class DatabaseSeeder extends Seeder
 
         Setting::firstOrCreate([], [
             'business_name' => 'Dapur Uti',
+            'business_address' => 
+                'Mojokemuning RT003/RW001, Sidomojo, Krian, Sidoarjo, 61262',
+            'whatsapp_number' => '6285852759459',
             'currency' => 'IDR',
         ]);
     }

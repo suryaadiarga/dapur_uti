@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('business_name')->default('Dapur Uti');
+            $table->string('business_name');
             $table->text('business_address')->nullable();
             $table->string('whatsapp_number', 30)->nullable();
             $table->string('logo_path')->nullable();
