@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="title">Daftar Invoice - Dapur Uti Finance</x-slot>
 
-    <div class="space-y-6 max-w-6xl mx-auto">
+    <div class="space-y-6">
         <!-- Header Section -->
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
