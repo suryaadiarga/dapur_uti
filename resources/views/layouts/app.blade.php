@@ -47,6 +47,15 @@
             color: #f1f5f9;
         }
 
+        /* --- KELAS KHUSUS EXPENSE & INCOME --- */
+        .text-expense {
+            color: #ef4444 !important; /* Merah */
+        }
+        .text-income {
+            color: #22c55e !important; /* Hijau */
+        }
+        /* ------------------------------------ */
+
         /* --- OTOMATIS WARNA TEKS KONTEN DI LIGHT MODE --- */
         html:not(.dark) h1, 
         html:not(.dark) h2, 
@@ -63,40 +72,84 @@
         }
         /* ------------------------------------------------ */
 
-        /* --- OTOMATIS TABEL DI LIGHT & DARK MODE --- */
-        html:not(.dark) table {
+        /* ============================================================
+           DATA-TABLE STYLING (DIJAMIN NGEFEK & KONTRAS)
+           ============================================================ */
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.875rem;
+        }
+
+        /* Table Head (Sangat Kontras & Menonjol) */
+        .data-table thead th {
+            background: #cbd5e1 !important; /* Light mode: Abu-abu jelas & kontras */
+            color: #0f172a !important;      /* Teks gelap tebal */
+            font-size: 0.75rem !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.08em !important;
+            text-transform: uppercase !important;
+            padding: 0.9rem 1rem !important;
+            border-bottom: 2px solid #94a3b8 !important;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .dark .data-table thead th {
+            background: #1e293b !important; /* Dark mode: Slate solid */
+            color: #f8fafc !important;      /* Teks putih terang */
+            border-bottom: 2px solid #334155 !important;
+        }
+
+        .data-table thead th:first-child {
+            border-radius: 0.75rem 0 0 0;
+        }
+
+        .data-table thead th:last-child {
+            border-radius: 0 0.75rem 0 0;
+        }
+
+        /* Table Body (Isi Tabel) */
+        html:not(.dark) .data-table {
             background-color: #ffffff !important;
-            color: #1e293b !important;
-            border-color: #e2e8f0 !important;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
         }
-        html:not(.dark) th {
-            background-color: #f8fafc !important;
-            color: #475569 !important;
-            border-bottom: 1px solid #cbd5e1 !important;
+
+        html.dark .data-table {
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid #1e293b;
+            border-radius: 0.75rem;
         }
-        html:not(.dark) td {
+
+        .data-table tbody td {
+            padding: 0.875rem 1rem !important;
+            font-weight: 400 !important;
+            text-transform: none !important;
+            letter-spacing: normal !important;
+            vertical-align: middle;
+            transition: background 0.15s ease;
+        }
+
+        html:not(.dark) .data-table tbody td {
             color: #334155 !important;
             border-bottom: 1px solid #f1f5f9 !important;
         }
-        html:not(.dark) tr:hover {
-            background-color: #f8fafc !important;
-        }
 
-        html.dark table {
-            background-color: rgba(15, 23, 42, 0.6) !important;
-            color: #f1f5f9 !important;
-            border-color: #1e293b !important;
-        }
-        html.dark th {
-            background-color: #0f172a !important;
-            color: #94a3b8 !important;
-            border-bottom: 1px solid #1e293b !important;
-        }
-        html.dark td {
+        html.dark .data-table tbody td {
             color: #cbd5e1 !important;
             border-bottom: 1px solid rgba(30, 41, 59, 0.6) !important;
         }
-        html.dark tr:hover {
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none !important;
+        }
+
+        .data-table tbody tr:hover td {
+            background-color: rgba(241, 245, 249, 0.8) !important;
+        }
+        .dark .data-table tbody tr:hover td {
             background-color: rgba(30, 41, 59, 0.4) !important;
         }
         /* --------------------------------------------------- */

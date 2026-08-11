@@ -183,7 +183,7 @@
             background-color var(--duration-slow) var(--ease-smooth),
             color var(--duration-slow) var(--ease-smooth);
         line-height: 1.6;
-        font-size: 0.9375rem; /* 15px — sedikit lebih refined dari 16px default */
+        font-size: 0.9375rem;
     }
 
     /* Ambient mesh background — signature element */
@@ -258,7 +258,6 @@
    LAYOUT UTILITIES
    ============================================================ */
 
-/* Panel — sidebar / nav container */
 .glass-panel {
     background: var(--bg-overlay);
     backdrop-filter: blur(16px) saturate(160%);
@@ -269,7 +268,6 @@
         border-color var(--duration-slow) var(--ease-smooth);
 }
 
-/* Card — konten / widget */
 .glass-card {
     background: var(--bg-elevated);
     border: 1px solid var(--border-default);
@@ -309,7 +307,6 @@
     opacity: 1;
 }
 
-/* Stat card — lebih menonjol */
 .stat-card {
     background: var(--bg-elevated);
     border: 1px solid var(--border-default);
@@ -373,7 +370,6 @@
     background: var(--bg-muted);
 }
 
-/* Active nav — signature left indicator */
 .nav-active {
     color: var(--text-accent) !important;
     background: var(--accent-50);
@@ -402,7 +398,6 @@
     border-radius: 0 var(--radius-full) var(--radius-full) 0;
 }
 
-/* Nav icon */
 .nav-link svg,
 .nav-link .nav-icon {
     width: 1.125rem;
@@ -457,7 +452,6 @@
     box-shadow: var(--shadow-glow);
 }
 
-/* Primary */
 .btn-primary {
     background: linear-gradient(135deg, var(--accent-500) 0%, var(--accent-700) 100%);
     color: #ffffff;
@@ -471,7 +465,6 @@
     transform: translateY(-1px);
 }
 
-/* Secondary */
 .btn-secondary {
     background: var(--bg-muted);
     color: var(--text-primary);
@@ -484,7 +477,6 @@
     color: var(--text-accent);
 }
 
-/* Ghost */
 .btn-ghost {
     background: transparent;
     color: var(--text-secondary);
@@ -496,7 +488,6 @@
     color: var(--text-primary);
 }
 
-/* Danger */
 .btn-danger {
     background: var(--danger-bg);
     color: var(--danger);
@@ -610,7 +601,7 @@
 }
 
 /* ============================================================
-   TABLE
+   TABLE (HIGH CONTRAST THEAD)
    ============================================================ */
 
 .data-table {
@@ -620,17 +611,26 @@
     font-size: 0.875rem;
 }
 
+/* --- TABLE HEAD (Sangat Kontras & Menonjol) --- */
 .data-table thead th {
-    background: var(--bg-subtle);
-    color: var(--text-muted);
+    /* Gunakan warna solid yang lebih gelap/terang drastis dari isi tabel */
+    background: #e2e8f0 !important; /* Light mode: Abu-abu kebiruan yang jelas */
+    color: var(--text-primary);
     font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
+    font-weight: 800;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--border-default);
+    padding: 0.9rem 1rem;
+    border-bottom: 2px solid var(--border-default);
     text-align: left;
     white-space: nowrap;
+}
+
+/* Khusus Dark Mode untuk Header agar sangat kontras */
+.dark .data-table thead th {
+    background: #1e293b !important; /* Dark mode: Slate lebih terang/solid dari background body */
+    color: #f8fafc !important;      /* Teks putih terang */
+    border-bottom: 2px solid #334155 !important;
 }
 
 .data-table thead th:first-child {
@@ -641,9 +641,13 @@
     border-radius: 0 var(--radius-md) 0 0;
 }
 
+/* --- TABLE BODY (Isi Tabel) --- */
 .data-table tbody td {
     padding: 0.875rem 1rem;
     color: var(--text-primary);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: normal;
     border-bottom: 1px solid var(--border-default);
     vertical-align: middle;
     transition: background var(--duration-fast) var(--ease-smooth);
@@ -755,7 +759,6 @@
     background: rgba(14, 23, 38, 0.50);
 }
 
-/* Modal card */
 .modal-card {
     background: var(--bg-elevated);
     border: 1px solid var(--border-default);
@@ -815,11 +818,10 @@
 .scrollbar-none { scrollbar-width: none; }
 
 /* ============================================================
-   TAILWIND SEMANTIC OVERRIDES
+   TAILWIND SEMANTIC OVERRIDES & CUSTOM UTILITIES
    ============================================================ */
 
 @layer utilities {
-    /* Wire Tailwind color classes ke CSS vars */
     .bg-base     { background-color: var(--bg-base); }
     .bg-subtle   { background-color: var(--bg-subtle); }
     .bg-muted    { background-color: var(--bg-muted); }
@@ -834,13 +836,22 @@
     .border-strong  { border-color: var(--border-strong); }
     .border-accent  { border-color: var(--border-accent); }
 
-    /* Focus ring standar */
+    /* Custom Keuangan (Expense / Income) */
+    .text-expense {
+        color: var(--danger);
+        color: red;
+
+    }
+    .text-income {
+        color: var(--success);
+        color: green;
+    }
+
     .focus-ring:focus-visible {
         outline: none;
         box-shadow: var(--shadow-glow);
     }
 
-    /* Subtle ink animation untuk links */
     .link-underline {
         background-image: linear-gradient(var(--accent-500), var(--accent-500));
         background-size: 0% 1.5px;

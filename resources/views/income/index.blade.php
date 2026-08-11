@@ -19,8 +19,8 @@
             <form method="GET" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
                 <!-- Input Helper Function untuk class agar rapi -->
                 @php 
-                    $inputClass = "w-full rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 px-3 py-2 text-xs text-slate-900 dark:text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition";
-                    $labelClass = "block text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1.5";
+                    $inputClass = "w-full rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 px-3 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition [&::-webkit-calendar-picker-indicator]:dark:invert [&::-webkit-calendar-picker-indicator]:dark:brightness-200";
+                    $labelClass = "block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1";
                 @endphp
 
                 <div>
@@ -64,7 +64,7 @@
         <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 overflow-hidden shadow-sm">
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm text-slate-600 dark:text-slate-300">
-                    <thead class="bg-slate-50 dark:bg-slate-950/80 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase border-b border-slate-200 dark:border-slate-800">
+                    <thead class="bg-slate-50 dark:bg-slate-950/80 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
                         <tr>
                             <th class="px-5 py-3.5">Tanggal</th>
                             <th class="px-5 py-3.5">Orang</th>
@@ -86,7 +86,9 @@
                                         {{ \App\Models\IncomeTransaction::PAYMENT_METHODS[$item->payment_method] ?? '-' }}
                                     </span>
                                 </td>
-                                <td class="px-5 py-4 whitespace-nowrap font-bold text-emerald-600 dark:text-emerald-400 text-xs">+ Rp {{ number_format($item->amount, 0, ',', '.') }}</td>
+                                <td class="font-semibold">
+                                    <span class="text-income">+ Rp {{ number_format($item->amount, 0, ',', '.') }}</span>
+                                </td>
                                 <td class="px-5 py-4 text-center">
                                     {!! $item->proof_path ? '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Ada</span>' : '<span class="text-slate-400 dark:text-slate-500 text-xs">-</span>' !!}
                                 </td>

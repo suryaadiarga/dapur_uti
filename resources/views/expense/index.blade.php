@@ -23,11 +23,11 @@
                 @endphp
 
                 <div>
-                    <label class="{{ $labelClass }}">Dari tanggal</label>
+                    <label class="{{ $labelClass }}">Dari</label>
                     <input type="date" name="date_from" value="{{ request('date_from') }}" class="{{ $inputClass }}">
                 </div>
                 <div>
-                    <label class="{{ $labelClass }}">Sampai tanggal</label>
+                    <label class="{{ $labelClass }}">Sampai</label>
                     <input type="date" name="date_to" value="{{ request('date_to') }}" class="{{ $inputClass }}">
                 </div>
                 <div>
@@ -103,8 +103,8 @@
                                         {{ \App\Models\ExpenseTransaction::PAYMENT_METHODS[$item->payment_method] }}
                                     </span>
                                 </td>
-                                <td class="px-5 py-4 whitespace-nowrap font-bold text-rose-600 dark:text-rose-400 text-xs">
-                                    - Rp {{ number_format($item->amount, 0, ',', '.') }}
+                                <td class="font-semibold">
+                                    <span class="text-expense">+ Rp {{ number_format($item->amount, 0, ',', '.') }}</span>
                                 </td>
                                 <td class="px-5 py-4 whitespace-nowrap">
                                     {!! $item->receipt_path 
