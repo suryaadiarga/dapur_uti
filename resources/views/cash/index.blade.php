@@ -46,69 +46,70 @@
                 <p class="mt-1 text-xs text-slate-400">Urutan transaksi terbaru. Saldo berjalan dihitung secara kronologis.</p>
             </div>
             
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm text-slate-300">
-                    <thead class="bg-slate-950/80 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
+            <div class="overflow-x-auto p-4">
+                <!-- Tabel Menggunakan Kelas .data-table Sesuai Tema Utama -->
+                <table class="data-table">
+                    <thead>
                         <tr>
-                            <th class="px-5 py-3.5">Tanggal</th>
-                            <th class="px-5 py-3.5">Jenis</th>
-                            <th class="px-5 py-3.5">Kategori</th>
-                            <th class="px-5 py-3.5">Keterangan</th>
-                            <th class="px-5 py-3.5">Orang</th>
-                            <th class="px-5 py-3.5 text-right">Debit</th>
-                            <th class="px-5 py-3.5 text-right">Kredit</th>
-                            <th class="px-5 py-3.5 text-right">Saldo Berjalan</th>
+                            <th>Tanggal</th>
+                            <th>Jenis</th>
+                            <th>Kategori</th>
+                            <th>Keterangan</th>
+                            <th>Orang</th>
+                            <th class="text-right">Debit</th>
+                            <th class="text-right">Kredit</th>
+                            <th class="text-right">Saldo Berjalan</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-800/60 bg-slate-900/20">
+                    <tbody>
                         @forelse($mutations as $item)
-                            <tr class="hover:bg-slate-800/40 transition">
+                            <tr>
                                 <!-- Tanggal -->
-                                <td class="px-5 py-4 whitespace-nowrap text-slate-400">
+                                <td class="whitespace-nowrap">
                                     {{ $item['date']->format('d/m/Y') }}
                                 </td>
                                 
                                 <!-- Jenis -->
-                                <td class="px-5 py-4 whitespace-nowrap">
+                                <td class="whitespace-nowrap">
                                     <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium border {{ $item['type'] === 'masuk' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20' }}">
                                         {{ ucfirst($item['type']) }}
                                     </span>
                                 </td>
 
                                 <!-- Kategori -->
-                                <td class="px-5 py-4 font-medium text-slate-300 whitespace-nowrap">
+                                <td class="font-medium whitespace-nowrap">
                                     {{ $item['category'] }}
                                 </td>
 
                                 <!-- Keterangan -->
-                                <td class="px-5 py-4 min-w-[200px] text-slate-400">
+                                <td class="min-w-[200px]">
                                     {{ $item['description'] ?: '-' }}
                                 </td>
 
                                 <!-- Orang -->
-                                <td class="px-5 py-4 font-semibold text-white whitespace-nowrap">
+                                <td class="font-semibold whitespace-nowrap">
                                     {{ $item['person'] }}
                                 </td>
 
                                 <!-- Debit (Uang Masuk) -->
-                                <td class="px-5 py-4 whitespace-nowrap text-right font-medium text-emerald-400">
+                                <td class="whitespace-nowrap text-right font-medium text-emerald-400">
                                     {{ $item['debit'] ? 'Rp ' . number_format($item['debit'], 0, ',', '.') : '-' }}
                                 </td>
 
                                 <!-- Kredit (Uang Keluar) -->
-                                <td class="px-5 py-4 whitespace-nowrap text-right font-medium text-rose-400">
+                                <td class="whitespace-nowrap text-right font-medium text-rose-400">
                                     {{ $item['credit'] ? 'Rp ' . number_format($item['credit'], 0, ',', '.') : '-' }}
                                 </td>
 
                                 <!-- Saldo Berjalan -->
-                                <td class="px-5 py-4 whitespace-nowrap text-right font-bold {{ $item['balance'] < 0 ? 'text-rose-500' : 'text-blue-400' }}">
+                                <td class="whitespace-nowrap text-right font-bold {{ $item['balance'] < 0 ? 'text-rose-500' : 'text-blue-400' }}">
                                     Rp {{ number_format($item['balance'], 0, ',', '.') }}
                                 </td>
                             </tr>
                         @empty
                             <!-- State Kosong -->
                             <tr>
-                                <td colspan="8" class="px-5 py-10 text-center text-slate-500">
+                                <td colspan="8" class="text-center py-10 text-slate-500">
                                     Belum ada mutasi kas tercatat.
                                 </td>
                             </tr>
