@@ -21,7 +21,7 @@ class SalaryController extends Controller
             ->whereDoesntHave('salary')
             ->with('person')
             ->orderBy('attendance_date', 'desc')
-            ->get();
+            ->paginate(15);
 
         return view('salaries.index', compact('salaries', 'pendingAttendances'));
     }

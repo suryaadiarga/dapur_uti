@@ -10,6 +10,9 @@ class CashService
 {
     public function mutations(?string $dateFrom = null, ?string $dateTo = null): Collection
     {
+        // Menaikkan limit memori sementara untuk memproses data seeder yang besar
+        ini_set('memory_limit', '1G');
+
         $income = IncomeTransaction::query()
             ->with('person')
             ->when($dateFrom, fn ($query) => $query->whereDate('transaction_date', '>=', $dateFrom))
@@ -21,7 +24,7 @@ class CashService
                 'type' => 'masuk',
                 'category' => IncomeTransaction::CATEGORIES[$item->category] ?? $item->category,
                 'description' => $item->description ?: '-',
-                'person' => $item->person->name,
+                'person' => $item->person?->name ?? '-',
                 'debit' => (float) $item->amount,
                 'credit' => 0.0,
                 'created_at' => $item->created_at,
@@ -38,7 +41,7 @@ class CashService
                 'type' => 'keluar',
                 'category' => ExpenseTransaction::CATEGORIES[$item->category] ?? $item->category,
                 'description' => $item->description ?: ($item->store_name ?: '-'),
-                'person' => $item->person->name,
+                'person' => $item->person?->name ?? '-',
                 'debit' => 0.0,
                 'credit' => (float) $item->amount,
                 'created_at' => $item->created_at,
