@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Format;
+
 class SalaryController extends Controller
 {
     public function index()
@@ -55,8 +59,33 @@ class SalaryController extends Controller
 
         // Handle upload foto bukti jika ada
         $photoPath = null;
-        if ($request->hasFile('proof_photo')) {
-            $photoPath = $request->file('proof_photo')->store('salary-proofs', 'public');
+        if ($request->hasFile('proof_photo')) 
+        {
+            $file = $request->file('proof_photo');
+            
+            // Buat nama file unik berformat .jpg
+            $filename = 'salary-proofs/' . time() . '_' . uniqid() . '.jpg';
+            
+            // Pastikan direktori storage/app/public/salary-proofs ada
+            $destinationPath = storage_path('app/public/salary-proofs');
+            if (!file_exists($destinationPath)) 
+            {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            // Proses kompresi dengan Intervention Image v4
+            $manager = ImageManager::usingDriver(Driver::class);
+            $image = $manager->decodePath($file->getRealPath());
+            
+            // Sesuaikan lebar maksimal misal 1000px agar ukuran file drastis turun & proporsional
+            $image->scale(width: 1000); 
+            
+            // Encode ke format JPEG dengan kualitas 75% lalu simpan secara fisik
+            $encoded = $image->encodeUsingFormat(Format::JPEG, quality: 75);
+            $encoded->save(storage_path('app/public/' . $filename));
+
+            // Path yang disimpan ke database (bisa diakses via asset('storage/' . $photoPath))
+            $photoPath = $filename;
         }
 
         // 1. Simpan Data Gaji
