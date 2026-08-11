@@ -104,7 +104,7 @@
                                     </span>
                                 </td>
                                 <td class="font-semibold">
-                                    <span class="text-expense">+ Rp {{ number_format($item->amount, 0, ',', '.') }}</span>
+                                    <span class="text-expense">- Rp {{ number_format($item->amount, 0, ',', '.') }}</span>
                                 </td>
                                 <td class="px-5 py-4 whitespace-nowrap">
                                     {!! $item->receipt_path 

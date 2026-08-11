@@ -76,30 +76,30 @@
             @endforeach
         </div>
 
-        <!-- Table Data -->
+        <!-- Table Data Menggunakan .data-table -->
         @php $moneyColumns = ['Nominal', 'Debit', 'Kredit', 'Saldo', 'Harga Satuan', 'Nilai']; @endphp
         <div class="glass-card rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm text-slate-300">
-                    <thead class="bg-slate-950/80 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
+            <div class="overflow-x-auto p-4">
+                <table class="data-table">
+                    <thead>
                         <tr>
                             @foreach($report['headings'] as $heading)
-                                <th class="px-5 py-3.5">{{ $heading }}</th>
+                                <th>{{ $heading }}</th>
                             @endforeach
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-800/60">
+                    <tbody>
                         @forelse($report['rows'] as $row)
-                            <tr class="hover:bg-slate-800/40 transition">
+                            <tr>
                                 @foreach($row as $index => $value)
-                                    <td class="px-5 py-4 whitespace-nowrap {{ in_array($report['headings'][$index], $moneyColumns) ? 'font-mono text-indigo-300' : '' }}">
+                                    <td class="whitespace-nowrap {{ in_array($report['headings'][$index], $moneyColumns) ? 'font-mono text-indigo-400 font-semibold' : '' }}">
                                         {{ in_array($report['headings'][$index], $moneyColumns) ? 'Rp '.number_format((float) $value, 0, ',', '.') : $value }}
                                     </td>
                                 @endforeach
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="{{ count($report['headings']) }}" class="px-5 py-10 text-center text-slate-500">Tidak ada data.</td>
+                                <td colspan="{{ count($report['headings']) }}" class="text-center py-10 text-slate-500">Tidak ada data.</td>
                             </tr>
                         @endforelse
                     </tbody>
