@@ -31,7 +31,6 @@
                     <tbody class="divide-y divide-slate-800/60">
                         @forelse($pendingAttendances as $att)
                             <tr class="hover:bg-slate-800/40 transition">
-                                <!-- PERBAIKAN: Menggunakan attendance_date dan pengaman format -->
                                 <td class="px-4 py-3 text-slate-300">
                                     {{ $att->attendance_date ? $att->attendance_date->format('d/m/Y') : '-' }}
                                 </td>
@@ -81,7 +80,6 @@
                     <tbody class="divide-y divide-slate-800/60">
                         @forelse($salaries as $sal)
                             <tr class="hover:bg-slate-800/40 transition">
-                                <!-- PENGAMAN: Cek salary_date -->
                                 <td class="px-4 py-3 text-slate-300">
                                     {{ $sal->salary_date ? $sal->salary_date->format('d/m/Y') : '-' }}
                                 </td>
@@ -96,7 +94,9 @@
                                 </td>
                                 <td class="px-4 py-3 text-center">
                                     @if($sal->signature)
-                                        <span class="text-emerald-400 font-semibold">Tersimpan</span>
+                                        <div class="inline-block bg-slate-950 p-1 rounded-lg border border-slate-700 shadow-sm">
+                                            <img src="{{ $sal->signature }}" alt="Tanda Tangan" class="h-10 w-auto object-contain max-w-[100px]">
+                                        </div>
                                     @else
                                         <span class="text-slate-600">-</span>
                                     @endif
