@@ -2,45 +2,50 @@
 
 namespace App\Services;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Format;
 
 class ImageService
 {
-    public function store(Request $request)
+    /**
+     * Memproses, mengompres, dan menyimpan gambar.
+     *
+     * @param UploadedFile $file File gambar dari request
+     * @param string $folderPath Nama folder tujuan di storage/app/public (contoh: 'salary-proofs' atau 'uploads/foto')
+     * @return string Path gambar yang berhasil disimpan untuk dimasukkan ke database
+     */
+    public function uploadAndCompress(UploadedFile $file, string $folderPath = 'uploads'): string
     {
-        $request->validate([
-            'foto' => 'required|image|mimes:jpeg,png,jpg,webp|max:10240',
-        ]);
+        // 1. Trik Bypass Windows: Simpan file dari Temp ke Storage sementara
+        $tempPath = $file->store($folderPath . '/temp', 'public');
+        
+        // Dapatkan path absolut dari file sementara
+        $absoluteTempPath = Storage::disk('public')->path($tempPath);
 
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            
-            $filename = time() . '_' . uniqid() . '.jpg';
-            $destinationPath = public_path('/uploads/foto');
+        // 2. Tentukan nama file akhir dan path absolut tujuan
+        $filename = $folderPath . '/' . time() . '_' . uniqid() . '.jpg';
+        $absoluteFinalPath = Storage::disk('public')->path($filename);
 
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
-            }
+        // 3. Baca gambar yang sudah aman di folder Storage
+        $manager = ImageManager::usingDriver(Driver::class);
+        $image = $manager->decodePath($absoluteTempPath);
 
-            // 1. Buat manager dengan Driver GD
-            $manager = ImageManager::usingDriver(Driver::class);
+        // 4. Ubah ukuran (maksimal lebar 1000px, tinggi otomatis proporsional)
+        $image->scale(width: 1000);
 
-            // 2. Baca file gambar dari path-nya
-            $image = $manager->decodePath($file->getRealPath());
+        // 5. Encode ke format JPEG dengan kualitas 75% agar ringan
+        $encoded = $image->encodeUsingFormat(Format::JPEG, quality: 75);
 
-            // 3. Ubah ukuran (misal berdasarkan lebar 1000px atau tinggi 300px)
-            $image->scale(width: 1000);
+        // 6. Simpan hasil kompresi ke tujuan akhir
+        $encoded->save($absoluteFinalPath);
 
-            // 4. Encode ke format JPEG dengan kualitas 75 agar ringan & stabil
-            $encoded = $image->encodeUsingFormat(Format::JPEG, quality: 75);
+        // 7. Hapus file mentah di folder temp agar penyimpanan tidak penuh
+        Storage::disk('public')->delete($tempPath);
 
-            // 5. Simpan ke folder tujuan
-            $encoded->save($destinationPath . '/' . $filename);
-
-            // Simpan nama file ($filename) ke database...
-        }
+        // 8. Kembalikan nama file beserta foldernya untuk disimpan ke DB
+        return $filename;
     }
 }

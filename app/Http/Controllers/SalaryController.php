@@ -8,19 +8,14 @@ use App\Models\ExpenseTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\Format;
+use App\Services\ImageService;
 
 class SalaryController extends Controller
 {
     public function index()
     {
-        // Ambil daftar gaji yang sudah dibayar
         $salaries = Salary::with(['person', 'attendance', 'creator'])->orderBy('salary_date', 'desc')->paginate(15);
         
-        // Ambil absensi hadir yang belum dibayar gajinya
         $pendingAttendances = Attendance::where('status', 'hadir')
             ->whereDoesntHave('salary')
             ->with('person')
@@ -34,7 +29,6 @@ class SalaryController extends Controller
     {
         $attendanceId = $request->query('attendance_id');
 
-        // PENGAMAN: Jika diakses tanpa parameter attendance_id, kembalikan ke index
         if (!$attendanceId) {
             return redirect()->route('salaries.index')->with('error', 'Silakan pilih data absensi terlebih dahulu.');
         }
@@ -44,48 +38,23 @@ class SalaryController extends Controller
         return view('salaries.create', compact('attendance'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, ImageService $imageService)
     {
         $request->validate([
             'attendance_id' => 'required|exists:attendances,id',
             'amount'        => 'required|numeric|min:0',
             'salary_date'   => 'required|date',
-            'proof_photo'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'signature'     => 'nullable|string', // Menerima data base64 tanda tangan
+            'proof_photo'   => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
+            'signature'     => 'nullable|string', 
             'notes'         => 'nullable|string',
         ]);
 
         $attendance = Attendance::findOrFail($request->attendance_id);
 
-        // Handle upload foto bukti jika ada
         $photoPath = null;
-        if ($request->hasFile('proof_photo')) 
-        {
-            $file = $request->file('proof_photo');
-            
-            // Buat nama file unik berformat .jpg
-            $filename = 'salary-proofs/' . time() . '_' . uniqid() . '.jpg';
-            
-            // Pastikan direktori storage/app/public/salary-proofs ada
-            $destinationPath = storage_path('app/public/salary-proofs');
-            if (!file_exists($destinationPath)) 
-            {
-                mkdir($destinationPath, 0755, true);
-            }
-
-            // Proses kompresi dengan Intervention Image v4
-            $manager = ImageManager::usingDriver(Driver::class);
-            $image = $manager->decodePath($file->getRealPath());
-            
-            // Sesuaikan lebar maksimal misal 1000px agar ukuran file drastis turun & proporsional
-            $image->scale(width: 1000); 
-            
-            // Encode ke format JPEG dengan kualitas 75% lalu simpan secara fisik
-            $encoded = $image->encodeUsingFormat(Format::JPEG, quality: 75);
-            $encoded->save(storage_path('app/public/' . $filename));
-
-            // Path yang disimpan ke database (bisa diakses via asset('storage/' . $photoPath))
-            $photoPath = $filename;
+        if ($request->hasFile('proof_photo')) {
+            // BOOM! Sisa 1 baris kode saja untuk menangani semua logika gambar yang rumit!
+            $photoPath = $imageService->uploadAndCompress($request->file('proof_photo'), 'salary-proofs');
         }
 
         // 1. Simpan Data Gaji
@@ -101,7 +70,7 @@ class SalaryController extends Controller
             'created_by'    => Auth::id(),
         ]);
 
-        // 2. OTOMATIS TAMBAHKAN KE TABEL EXPENSE_TRANSACTIONS (Sesuai Fillable Model ExpenseTransaction)
+        // 2. Otomatis tambah ke ExpenseTransaction
         ExpenseTransaction::create([
             'transaction_date' => $request->salary_date,
             'people_id'        => $attendance->people_id,
@@ -118,7 +87,6 @@ class SalaryController extends Controller
 
     public function destroy(Salary $salary)
     {
-        // Hapus file foto bukti jika ada
         if ($salary->proof_photo) {
             Storage::disk('public')->delete($salary->proof_photo);
         }
